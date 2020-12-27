@@ -7,19 +7,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        margin: theme.spacing(1.5),    },
+        margin: theme.spacing(1.5),    
+    }  
 }));
 
 
 const Card = (props) =>{
     const classes = useStyles();
     return(
-        <div className="card">
+        <div className="card" >
             <img src={props.src} height="250px" className="card-img-top" alt="..."></img>
             <div className="card-body">
                 <h5 className="card-title">{props.title}</h5>
                 <p className="card-text">{props.desc}</p>
-                <a onClick={props.checkReceipe} className="btn btn-primary">Check Receipe</a>
+                <Button onClick={props.checkReceipe} variant="outlined" color="primary">
+                    Check Receipe
+                </Button>
                 <Button
                     variant="contained"
                     color="secondary"
