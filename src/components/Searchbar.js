@@ -6,6 +6,8 @@ const InputField = () =>{
         setnewTaskText(e.target.value)
     }
 
+    
+
     const handleClick = ()=>{
         console.log(newTaskText)
         setnewTaskText("")
