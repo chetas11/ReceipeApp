@@ -1,6 +1,6 @@
 import React, {useState,useEffect, useRef} from "react";
 
-const Receipe = (props) =>{
+const Card = (props) =>{
     
     return(
         <div className="card">
@@ -8,10 +8,11 @@ const Receipe = (props) =>{
             <div className="card-body">
                 <h5 className="card-title">{props.title}</h5>
                 <p className="card-text">{props.desc}</p>
-                <a href="#" className="btn btn-primary">Check Receipe</a>
+                <a onClick={props.checkReceipe} className="btn btn-primary">Check Receipe</a>&nbsp;
+                <button onClick={props.onDeleteClick} className="btn btn-primary">Delete</button>
             </div>
         </div>
     )
 }
 
-export default Receipe;
+export default Card;
