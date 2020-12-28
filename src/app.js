@@ -29,6 +29,7 @@ const App = ()=>{
     const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [SingleReceipe, setTitle] = useState({title:"", receipe:"",ingredients:""})
 
     useEffect(() =>{
         localStorage.setItem("receipes", JSON.stringify(receipes))
@@ -54,12 +55,14 @@ return(
                 }
                 const handleOpen = () => {
                 setOpen(true);
-                Title = item.title,
-                Receipe = item.receipe
+                setTitle({
+                    title:item.title,
+                    receipe:item.receipe,
+                    ingredients:item.ingredients
+                })
                 };
                 return(
                 <div className="col-lg-4 col-md-4 col-sm-6">
-                <Card src={item.src} title={item.title} desc={item.desc} key={tabIndex} checkReceipe={handleOpen} onDeleteClick = {onDeleteClick} />
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -74,11 +77,14 @@ return(
                 >
                     <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2 id="transition-modal-title">{Title}</h2>
-                        <p id="transition-modal-description">{Receipe}</p>
+                        <h2 id="transition-modal-title">{SingleReceipe.title}</h2>
+                        <p id="transition-modal-description"><strong>Ingredients</strong>  - {SingleReceipe.ingredients}</p>
+                        <p id="transition-modal-description"><strong>Receipe</strong>  - {SingleReceipe.receipe}</p>
                     </div>
                     </Fade>
                 </Modal>
+                <Card src={item.src} title={item.title} desc={item.desc} key={tabIndex} checkReceipe={handleOpen} onDeleteClick = {onDeleteClick} />
+
                 </div>
                 )
             })}
