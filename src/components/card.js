@@ -21,7 +21,7 @@ const Card = (props) =>{
                 <h5 className="card-title">{props.title}</h5>
                 <p className="card-text">{props.desc}</p>
                 <Button onClick={props.checkReceipe} variant="outlined" color="primary">
-                    Check Receipe
+                    Check Recipe
                 </Button>
                 <Button
                     variant="contained"
