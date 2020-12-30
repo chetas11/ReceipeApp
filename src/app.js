@@ -34,7 +34,9 @@ const App = ()=>{
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [openCreate, setOpenCreate] = React.useState(false);
-    const [SingleReceipe, setTitle] = useState({title:"", receipe:"",ingredients:""})
+    const [SingleReceipe, setRecipe] = useState({title:"", receipe:"",ingredients:""})
+    const [newRecipe, setNewRecipe] = useState({title:"", ingredients:"",receipe:"",src:"", desc:""})
+    const [search, setSearch] = useState("")
 
     useEffect(() =>{
         localStorage.setItem("receipes", JSON.stringify(receipes))
@@ -49,8 +51,18 @@ const App = ()=>{
         setOpen(false);
     };
 
+    const onInputChnage = (e) =>{
+        setNewRecipe(e.target.value)
+    }
+
     const getDetails = () =>{
-       console.log("Entered") 
+         setNewList(...receipes, {
+            title:newRecipe.title,
+            ingredients:newRecipe.ingredients,
+            receipe:newRecipe.receipe,
+            src:newRecipe.src,
+            desc:newRecipe.desc
+        })
     }
     const CreateNew = () => {
         if(openCreate){
@@ -63,7 +75,7 @@ const App = ()=>{
 return(
     <div>
         <h1 className="text-secondary">Recipe App</h1>
-        <InputField  />
+        <InputField onChange={onInputChnage} value={search}  />
         <div className={classes.root}>
             <Button onClick={CreateNew} variant="outlined" color="primary" href="#outlined-buttons">
                 Add new recipe
@@ -76,13 +88,12 @@ return(
                 }
                 const handleOpen = () => {
                 setOpen(true);
-                setTitle({
+                setRecipe({
                     title:item.title,
                     receipe:item.receipe,
                     ingredients:item.ingredients
                 })
                 };
-                
                 return(
                 <div className="col-lg-4 col-md-4 col-sm-6">
                 <Modal
@@ -119,11 +130,11 @@ return(
                     <div className={classes.paper}>
                         <h1>Add new dish</h1>
                         <form id="form">
-                            <input name="title" placeholder="Enter Dish Name" className="form-control"></input><br />
-                            <input name="desc" placeholder="Description" className="form-control"></input><br />
-                            <input name="src" placeholder="Image URL" className="form-control"></input><br />
-                            <input name="ingredients" placeholder="Ingredients" className="form-control"></input><br />
-                            <textarea name="receipe" rows="6" placeholder="Recipe" className="form-control"></textarea><br />
+                            <input value={newRecipe.title} onChange={onInputChnage} name="title" placeholder="Enter Dish Name" className="form-control"></input><br />
+                            <input value={newRecipe.desc} onChange={onInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
+                            <input value={newRecipe.src} onChange={onInputChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
+                            <input value={newRecipe.ingredients} onChange={onInputChnage} name="ingredients" placeholder="Ingredients" className="form-control"></input><br />
+                            <textarea value={newRecipe.receipe} onChange={onInputChnage} name="receipe" rows="6" placeholder="Recipe" className="form-control"></textarea><br />
                         </form>
                         <button onClick={getDetails} className="btn btn-primary">Submit</button>
                     </div>
