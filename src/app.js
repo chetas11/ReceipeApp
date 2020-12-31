@@ -35,7 +35,11 @@ const App = ()=>{
     const [open, setOpen] = React.useState(false);
     const [openCreate, setOpenCreate] = React.useState(false);
     const [SingleReceipe, setRecipe] = useState({title:"", receipe:"",ingredients:""})
-    const [newRecipe, setNewRecipe] = useState({title:"", ingredients:"",receipe:"",src:"", desc:""})
+    const [title, setTitle] = useState("")
+    const [ingredients, setIngredients] = useState("")
+    const [receipe, setNewRecipe] = useState("")
+    const [src, setSrc] = useState("")
+    const [desc, setDesc] = useState("")
     const [search, setSearch] = useState("")
 
     useEffect(() =>{
@@ -51,18 +55,37 @@ const App = ()=>{
         setOpen(false);
     };
 
-    const onInputChnage = (e) =>{
+    const onSearchChange = (e) =>{
+        setSearch(e.target.value)
+    }
+    const onTitleChange = (e) =>{
+        setTitle(e.target.value)
+    }
+    const onRecipeChnage = (e) =>{
         setNewRecipe(e.target.value)
     }
+    const onDescInputChnage = (e) =>{
+        setDesc(e.target.value)
+    }
+    const onIngredientsChnage = (e) =>{
+        setIngredients(e.target.value)
+    }
+    const onSrcChnage = (e) =>{
+        setSrc(e.target.value)
+    }
+
 
     const getDetails = () =>{
-         setNewList(...receipes, {
-            title:newRecipe.title,
-            ingredients:newRecipe.ingredients,
-            receipe:newRecipe.receipe,
-            src:newRecipe.src,
-            desc:newRecipe.desc
-        })
+    if(title && receipe && ingredients){
+        setNewList([...receipes,{
+         title:title,
+         receipe:receipe,
+         desc:desc,
+         ingredients:ingredients,
+         src:src
+     }])
+     setOpenCreate(false)
+    }
     }
     const CreateNew = () => {
         if(openCreate){
@@ -75,7 +98,7 @@ const App = ()=>{
 return(
     <div>
         <h1 className="text-secondary">Recipe App</h1>
-        <InputField onChange={onInputChnage} value={search}  />
+        <InputField onChange={onSearchChange} value={search}  />
         <div className={classes.root}>
             <Button onClick={CreateNew} variant="outlined" color="primary" href="#outlined-buttons">
                 Add new recipe
@@ -130,11 +153,11 @@ return(
                     <div className={classes.paper}>
                         <h1>Add new dish</h1>
                         <form id="form">
-                            <input value={newRecipe.title} onChange={onInputChnage} name="title" placeholder="Enter Dish Name" className="form-control"></input><br />
-                            <input value={newRecipe.desc} onChange={onInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
-                            <input value={newRecipe.src} onChange={onInputChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
-                            <input value={newRecipe.ingredients} onChange={onInputChnage} name="ingredients" placeholder="Ingredients" className="form-control"></input><br />
-                            <textarea value={newRecipe.receipe} onChange={onInputChnage} name="receipe" rows="6" placeholder="Recipe" className="form-control"></textarea><br />
+                            <input value={title} onChange={onTitleChange} name="title" placeholder="Enter Dish Name" className="form-control"></input><br />
+                            <input value={desc} onChange={onDescInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
+                            <input value={src} onChange={onSrcChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
+                            <input value={ingredients} onChange={onIngredientsChnage} name="ingredients" placeholder="Ingredients" className="form-control"></input><br />
+                            <textarea value={receipe} onChange={onRecipeChnage} name="receipe" rows="6" placeholder="Recipe" className="form-control"></textarea><br />
                         </form>
                         <button onClick={getDetails} className="btn btn-primary">Submit</button>
                     </div>
