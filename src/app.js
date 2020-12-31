@@ -8,7 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
-
+import SaveIcon from '@material-ui/icons/Save';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  button: {
+    margin: theme.spacing(1),
   },
   root: {
     '& > *': {
@@ -85,6 +88,8 @@ const App = ()=>{
          src:src
      }])
      setOpenCreate(false)
+    }else{
+        alert("Enter the required * details")
     }
     }
     const CreateNew = () => {
@@ -97,10 +102,10 @@ const App = ()=>{
 
 return(
     <div>
-        <h1 className="text-secondary">Recipe App</h1>
+        <h1 className="text-secondary mb-3"><u>Recipe App</u></h1>
         <InputField onChange={onSearchChange} value={search}  />
         <div className={classes.root}>
-            <Button onClick={CreateNew} variant="outlined" color="primary" href="#outlined-buttons">
+            <Button className="mt-4" onClick={CreateNew} variant="contained" color="primary" href="#outlined-buttons">
                 Add new recipe
             </Button>
         </div>
@@ -153,13 +158,22 @@ return(
                     <div className={classes.paper}>
                         <h1>Add new dish</h1>
                         <form id="form">
-                            <input value={title} onChange={onTitleChange} name="title" placeholder="Enter Dish Name" className="form-control"></input><br />
+                            <input value={title} onChange={onTitleChange} name="title" placeholder="Enter Dish Name*" className="form-control"></input><br />
                             <input value={desc} onChange={onDescInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
                             <input value={src} onChange={onSrcChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
-                            <input value={ingredients} onChange={onIngredientsChnage} name="ingredients" placeholder="Ingredients" className="form-control"></input><br />
-                            <textarea value={receipe} onChange={onRecipeChnage} name="receipe" rows="6" placeholder="Recipe" className="form-control"></textarea><br />
+                            <input value={ingredients} onChange={onIngredientsChnage} name="ingredients" placeholder="Ingredients*" className="form-control"></input><br />
+                            <textarea value={receipe} onChange={onRecipeChnage} name="receipe" rows="6" placeholder="Recipe*" className="form-control"></textarea><br />
                         </form>
-                        <button onClick={getDetails} className="btn btn-primary">Submit</button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                            className={classes.button}
+                            startIcon={<SaveIcon />}
+                            onClick={getDetails}
+                        >
+                            Save
+                        </Button>
                     </div>
                     </Fade>
                 </Modal>
