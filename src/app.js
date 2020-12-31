@@ -7,13 +7,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
+import NewRecipe from "./components/NewRecipe";
 
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    width:'100%'
+    width:'100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -36,13 +38,7 @@ const App = ()=>{
     const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [openCreate, setOpenCreate] = React.useState(false);
     const [SingleReceipe, setRecipe] = useState({title:"", receipe:"",ingredients:""})
-    const [title, setTitle] = useState("")
-    const [ingredients, setIngredients] = useState("")
-    const [receipe, setNewRecipe] = useState("")
-    const [src, setSrc] = useState("")
-    const [desc, setDesc] = useState("")
     const [search, setSearch] = useState("")
 
     useEffect(() =>{
@@ -61,54 +57,12 @@ const App = ()=>{
     const onSearchChange = (e) =>{
         setSearch(e.target.value)
     }
-    const onTitleChange = (e) =>{
-        setTitle(e.target.value)
-    }
-    const onRecipeChnage = (e) =>{
-        setNewRecipe(e.target.value)
-    }
-    const onDescInputChnage = (e) =>{
-        setDesc(e.target.value)
-    }
-    const onIngredientsChnage = (e) =>{
-        setIngredients(e.target.value)
-    }
-    const onSrcChnage = (e) =>{
-        setSrc(e.target.value)
-    }
-
-
-    const getDetails = () =>{
-    if(title && receipe && ingredients){
-        setNewList([...receipes,{
-         title:title,
-         receipe:receipe,
-         desc:desc,
-         ingredients:ingredients,
-         src:src
-     }])
-     setOpenCreate(false)
-    }else{
-        alert("Enter the required * details")
-    }
-    }
-    const CreateNew = () => {
-        if(openCreate){
-            setOpenCreate(false)
-        }else{
-            setOpenCreate(true)
-        }
-    };
 
 return(
     <div>
         <h1 className="text-secondary mb-3"><u>Recipe App</u></h1>
         <InputField onChange={onSearchChange} value={search}  />
-        <div className={classes.root}>
-            <Button className="mt-4" onClick={CreateNew} variant="contained" color="primary" href="#outlined-buttons">
-                Add new recipe
-            </Button>
-        </div>
+        <NewRecipe />
             <div className="row mt-4">
             {receipes.map((item, tabIndex)=>{
                 const onDeleteClick = ()=>{
@@ -141,39 +95,6 @@ return(
                         <h2 id="transition-modal-title">{SingleReceipe.title}</h2>
                         <p id="transition-modal-description"><strong>Ingredients</strong>  - {SingleReceipe.ingredients}</p>
                         <p id="transition-modal-description"><strong>Receipe</strong>  - {SingleReceipe.receipe}</p>
-                    </div>
-                    </Fade>
-                </Modal>
-                <Modal
-                    className={classes.modal}
-                    open={openCreate}
-                    onClose={CreateNew}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                    timeout: 500,
-                    }}
-                >
-                    <Fade in={openCreate}>
-                    <div className={classes.paper}>
-                        <h1>Add new dish</h1>
-                        <form id="form">
-                            <input value={title} onChange={onTitleChange} name="title" placeholder="Enter Dish Name*" className="form-control"></input><br />
-                            <input value={desc} onChange={onDescInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
-                            <input value={src} onChange={onSrcChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
-                            <input value={ingredients} onChange={onIngredientsChnage} name="ingredients" placeholder="Ingredients*" className="form-control"></input><br />
-                            <textarea value={receipe} onChange={onRecipeChnage} name="receipe" rows="6" placeholder="Recipe*" className="form-control"></textarea><br />
-                        </form>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            className={classes.button}
-                            startIcon={<SaveIcon />}
-                            onClick={getDetails}
-                        >
-                            Save
-                        </Button>
                     </div>
                     </Fade>
                 </Modal>
