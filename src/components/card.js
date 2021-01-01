@@ -17,7 +17,7 @@ const Card = (props) =>{
     const classes = useStyles();
     return(
         <div className="card" >
-            <img src={props.src} height="250px" className="card-img-top" alt="..."></img>
+            <img src={props.src} height="300px" className="card-img-top" alt="..."></img>
             <div className="card-body">
                 <h5 className="card-title">{props.title}</h5>
                 <p className="card-text">{props.desc}</p>
