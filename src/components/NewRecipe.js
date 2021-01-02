@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const NewRecipe = (props) =>{
     return(
         <div className={classes.root}>
             <Button className="mt-4" onClick={props.AddNew} variant="contained" color="primary" href="#outlined-buttons">
-                Add new recipe
+                <AddOutlinedIcon />Add new recipe
             </Button>
         </div>
     )

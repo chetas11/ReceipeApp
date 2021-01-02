@@ -2,7 +2,7 @@ import React from "react";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -19,7 +19,7 @@ const Card = (props) =>{
                 <h5 className="card-title">{props.title}</h5>
                 <p className="card-text">{props.desc}</p>
                 <Button onClick={props.checkReceipe} variant="outlined" color="primary">
-                    Check Recipe
+                    <SpeakerNotesIcon />&nbsp; Recipe
                 </Button>
                 <Button
                     variant="outlined"
