@@ -4,14 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
-
-
 const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1.5),    
     }  
 }));
-
 
 const Card = (props) =>{
     const classes = useStyles();

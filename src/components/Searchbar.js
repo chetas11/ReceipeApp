@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -21,21 +21,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const InputField = () =>{
-    const [newTaskText, setnewTaskText] = useState("");
-    const onInputChnage = (e) =>{
-        setnewTaskText(e.target.value)
-    }
-
-    
-
-    const handleClick = ()=>{
-        console.log(newTaskText)
-        setnewTaskText("")
-    }
-
+const InputField = (props) =>{
     const classes = useStyles();
-
     return(
         <div>
             <Paper component="form" className={classes.root}>
@@ -43,10 +30,10 @@ const InputField = () =>{
                 className={classes.input}
                 placeholder="Search your Receipe"
                 inputProps={{ 'aria-label': 'Search your Receipe' }}
-                onChange={onInputChnage}  
-                value={newTaskText}
+                onChange={props.onInputChnage}  
+                value={props.value}
             />
-            <IconButton onClick={handleClick} className={classes.iconButton} aria-label="search">
+            <IconButton onClick={props.handleClick} className={classes.iconButton} aria-label="search">
                 <SearchIcon />
             </IconButton>
             </Paper>

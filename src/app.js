@@ -11,7 +11,6 @@ import NewRecipe from "./components/NewRecipe";
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
 
-
 const useStyles = makeStyles((theme) => ({
   modal: {
     width:'100%'
@@ -38,13 +37,15 @@ const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.pa
 const classes = useStyles();
 const [open, setOpen] = React.useState(false);
 const [SingleReceipe, setRecipe] = useState({title:"", receipe:"",ingredients:""})
-const [search, setSearch] = useState("")
 const [openCreate, setOpenCreate] = React.useState(false);
 const [title, setTitle] = useState("")
 const [ingredients, setIngredients] = useState("")
 const [receipe, setNewRecipe] = useState("")
 const [src, setSrc] = useState("")
 const [desc, setDesc] = useState("")
+const [searchText, setSearchText] = useState("");
+const [RecipeList, setListText] = useState(receipes);
+
 
 useEffect(() =>{
     localStorage.setItem("receipes", JSON.stringify(receipes))
@@ -53,15 +54,12 @@ useEffect(() =>{
 const deleteItem = (ClickedTasksIndex) =>{
     const NewRecipeList = [...receipes]
     NewRecipeList.splice(ClickedTasksIndex, 1)
+    setListText(NewRecipeList)
     setNewList(NewRecipeList)
 }
 const handleClose = () => {
     setOpen(false);
 };
-
-const onSearchChange = (e) =>{
-    setSearch(e.target.value)
-}
 
 const CreateNew = () => {
 if(openCreate){
@@ -88,10 +86,34 @@ const onSrcChnage = (e) =>{
     setSrc(e.target.value)
 }
 
+const onInputChnage = (e) =>{
+    setSearchText(e.target.value)
+    const SearchedDish = receipes.filter((item)=> (item.title).trim().toLowerCase().includes(searchText.toLowerCase()));
+    console.log(SearchedDish, searchText)
+    if(searchText){
+      setListText(SearchedDish)
+    }else{
+      setListText(receipes)  
+    }
+}
+
+const SearchClick = (e) =>{
+    if(searchText===""){
+      setListText(receipes) 
+    }
+}
+
 
 const getDetails = () =>{
 if(title && receipe && ingredients){
     setNewList([...receipes,{
+        title:title,
+        receipe:receipe,
+        desc:desc,
+        ingredients:ingredients,
+        src:src
+    }])
+    setListText([...receipes,{
         title:title,
         receipe:receipe,
         desc:desc,
@@ -107,10 +129,10 @@ if(title && receipe && ingredients){
 return(
     <div>
         <h1 className="text-secondary mb-3"><u>Recipe App</u></h1>
-        <InputField onChange={onSearchChange} value={search}  />
+        <InputField onInputChnage={onInputChnage} value={searchText} handleClick={SearchClick} />
         <NewRecipe AddNew={CreateNew} />
         <div className="row mt-4">
-            {receipes.map((item, tabIndex)=>{
+            {RecipeList.map((item, tabIndex)=>{
                 const onDeleteClick = ()=>{
                     deleteItem(tabIndex)
                 }
@@ -177,7 +199,7 @@ return(
                     </div>
                     </Fade>
                 </Modal>
-                <Card src={item.src} title={item.title} desc={item.desc} key={tabIndex} checkReceipe={handleOpen} onDeleteClick = {onDeleteClick} />
+                <Card key={tabIndex} src={item.src} title={item.title} desc={item.desc}  checkReceipe={handleOpen} onDeleteClick = {onDeleteClick} />
                 </div>
                 )
             })}
