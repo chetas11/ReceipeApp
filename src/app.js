@@ -89,7 +89,6 @@ const onSrcChnage = (e) =>{
 const onInputChnage = (e) =>{
     setSearchText(e.target.value)
     const SearchedDish = receipes.filter((item)=> (item.title).trim().toLowerCase().includes(searchText.toLowerCase()));
-    console.log(SearchedDish, searchText)
     if(searchText){
       setListText(SearchedDish)
     }else{
