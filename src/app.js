@@ -8,8 +8,9 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import NewRecipe from "./components/NewRecipe";
-import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -51,12 +52,6 @@ useEffect(() =>{
     localStorage.setItem("receipes", JSON.stringify(receipes))
 }, [receipes]);
 
-const deleteItem = (ClickedTasksIndex) =>{
-    const NewRecipeList = [...receipes]
-    NewRecipeList.splice(ClickedTasksIndex, 1)
-    setListText(NewRecipeList)
-    setNewList(NewRecipeList)
-}
 const handleClose = () => {
     setOpen(false);
 };
@@ -68,6 +63,8 @@ if(openCreate){
     setOpenCreate(true)
 }
 };
+
+
 
 
 const onTitleChange = (e) =>{
@@ -102,6 +99,12 @@ const SearchClick = (e) =>{
     }
 }
 
+const deleteItem = (ClickedTasksIndex) =>{
+    const NewRecipeList = [...receipes]
+    NewRecipeList.splice(ClickedTasksIndex, 1)
+    setListText(NewRecipeList)
+    setNewList(NewRecipeList)
+}
 
 const getDetails = () =>{
 if(title && receipe && ingredients){
@@ -119,7 +122,11 @@ if(title && receipe && ingredients){
         ingredients:ingredients,
         src:src
     }])
-    setOpenCreate(false)
+    setTitle("")
+    setNewRecipe("")
+    setDesc("")
+    setIngredients("")
+    setSrc("")
 }else{
     alert("Enter the required details")
 }
@@ -129,80 +136,39 @@ return(
     <div>
         <h1 className="text-secondary mb-3"><u>Recipe App</u></h1>
         <InputField onInputChnage={onInputChnage} value={searchText} handleClick={SearchClick} />
-        <NewRecipe AddNew={CreateNew} />
-        <div className="row mt-4">
-            {RecipeList.map((item, tabIndex)=>{
-                const onDeleteClick = ()=>{
-                    deleteItem(tabIndex)
-                }
-                const handleOpen = () => {
-                setOpen(true);
-                setRecipe({
-                    title:item.title,
-                    receipe:item.receipe,
-                    ingredients:item.ingredients
-                })
-                };
-                return(
-                <div className="col-lg-4 col-md-4 col-sm-6">
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                    timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                    <div className={classes.paper}>
-                        <h2 id="transition-modal-title">{SingleReceipe.title}</h2>
-                        <p id="transition-modal-description"><strong>Ingredients</strong>  - {SingleReceipe.ingredients}</p>
-                        <p id="transition-modal-description"><strong>Receipe</strong>  - {SingleReceipe.receipe}</p>
-                    </div>
-                    </Fade>
-                </Modal>
-                <Modal
-                    className={classes.modal}
-                    open={openCreate}
-                    onClose={CreateNew}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                    timeout: 500,
-                    }}
-                >
-                    <Fade in={openCreate}>
-                    <div className={classes.paper}>
-                        <h1>Add new dish</h1>
-                        <form id="form">
-                            <input value={title} onChange={onTitleChange} name="title" placeholder="Enter Dish Name*" className="form-control"></input><br />
-                            <input value={desc} onChange={onDescInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
-                            <input value={src} onChange={onSrcChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
-                            <input value={ingredients} onChange={onIngredientsChnage} name="ingredients" placeholder="Ingredients*" className="form-control"></input><br />
-                            <textarea value={receipe} onChange={onRecipeChnage} name="receipe" rows="6" placeholder="Recipe*" className="form-control"></textarea><br />
-                        </form>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            className={classes.button}
-                            startIcon={<SaveIcon />}
-                            onClick={getDetails}
-                        >
-                            Save
-                        </Button>
-                    </div>
-                    </Fade>
-                </Modal>
-                <Card key={tabIndex} src={item.src} title={item.title} desc={item.desc}  checkReceipe={handleOpen} onDeleteClick = {onDeleteClick} />
-                </div>
-                )
-            })}
-        </div>
+            <Router>
+                <Link to="/">
+                <Button className="mt-4" variant="contained" color="primary" href="#outlined-buttons">
+                All Recipes
+                </Button>&nbsp;&nbsp;
+                </Link>
+                <Link to="/new">
+                <Button className="mt-4" variant="contained" color="primary" href="#outlined-buttons">
+                <AddOutlinedIcon />Add new recipe
+                </Button>
+                </Link>
+                <Switch>
+                    <Route exact path="/">
+                        <Card deleteItem={deleteItem} RecipeList={RecipeList} />
+                    </Route>
+                    <Route path="/new">
+                        <NewRecipe 
+                        AddNew={CreateNew} 
+                        title={title} 
+                        onTitleChange={onTitleChange} 
+                        desc={desc} 
+                        onDescInputChnage={onDescInputChnage}
+                        src={src} 
+                        onSrcChnage={onSrcChnage} 
+                        ingredients={ingredients} 
+                        onIngredientsChnage={onIngredientsChnage}
+                        receipe={receipe} 
+                        onRecipeChnage={onRecipeChnage}
+                        getDetails={getDetails}
+                        />
+                    </Route>
+                </Switch>
+            </Router>
     </div>
 )
 }
