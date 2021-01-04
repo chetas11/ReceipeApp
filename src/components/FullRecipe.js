@@ -12,9 +12,9 @@ const FullRecipe = (props)=>{
             <div className="col-lg-7 col-md-8 col-sm-6">
                 <h2>{props.title}</h2>
                 <h5><u>Ingredients:</u></h5>
-                <p>{props.ingredients}</p> 
+                <textarea rows="6" cols="50">{props.ingredients}</textarea> 
                 <h5><u>Recipe:</u></h5>
-                <p>{props.recipe}</p>
+                <textarea rows="6" cols="50">{props.recipe}</textarea>
             </div>
         </div>
         </div>

@@ -148,7 +148,6 @@ return(
                     </Route>
                     <Route path="/new">
                         <NewRecipe 
-                        AddNew={CreateNew} 
                         title={title} 
                         onTitleChange={onTitleChange} 
                         desc={desc} 
