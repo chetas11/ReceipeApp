@@ -3,7 +3,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
-import AllReceipes from "../data/receipes"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -40,6 +41,9 @@ const Card = (props) =>{
                 const onDeleteClick = ()=>{
                     props.deleteItem(tabIndex)
                 }
+                const checkRecipe = ()=>{
+                    props.fullrecipe(tabIndex)
+                }
                 return(
                 <>
                 <div className="col-lg-4 col-md-4 col-sm-6">
@@ -48,9 +52,11 @@ const Card = (props) =>{
                 <div className="card-body">
                     <h5 className="card-title">{item.title}</h5 >
                     <p className="card-text">{item.desc}</p>
-                    <Button onClick={props.checkRecipe} variant="outlined" color="primary">
+                    <Link to="/fullrecipe">
+                    <Button onClick={checkRecipe} variant="outlined" color="primary">
                         <SpeakerNotesIcon />&nbsp; Recipe
                     </Button>
+                    </Link>
                     <Button
                         variant="outlined"
                         color="secondary"

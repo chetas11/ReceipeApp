@@ -4,13 +4,11 @@ import InputField from "./components/Searchbar"
 import Card from "./components/card"
 import AllReceipes from "./data/receipes"
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import NewRecipe from "./components/NewRecipe";
 import Button from '@material-ui/core/Button';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import FullRecipe from "./components/FullRecipe";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -37,7 +35,7 @@ const App = ()=>{
 const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes);
 const classes = useStyles();
 const [open, setOpen] = React.useState(false);
-const [SingleReceipe, setRecipe] = useState({title:"", receipe:"",ingredients:""})
+const [SingleReceipe, setRecipe] = useState({Fulltitle:"", Fullreceipe:"",Fullingredients:"", Fullsrc:"", Fulldesc:""})
 const [openCreate, setOpenCreate] = React.useState(false);
 const [title, setTitle] = useState("")
 const [ingredients, setIngredients] = useState("")
@@ -51,21 +49,6 @@ const [RecipeList, setListText] = useState(receipes);
 useEffect(() =>{
     localStorage.setItem("receipes", JSON.stringify(receipes))
 }, [receipes]);
-
-const handleClose = () => {
-    setOpen(false);
-};
-
-const CreateNew = () => {
-if(openCreate){
-    setOpenCreate(false)
-}else{
-    setOpenCreate(true)
-}
-};
-
-
-
 
 const onTitleChange = (e) =>{
     setTitle(e.target.value)
@@ -106,6 +89,17 @@ const deleteItem = (ClickedTasksIndex) =>{
     setNewList(NewRecipeList)
 }
 
+const fullrecipe = (ClickedTasksIndex) => {
+    setRecipe({
+        Fulltitle:RecipeList[ClickedTasksIndex].title,
+        Fullreceipe:RecipeList[ClickedTasksIndex].receipe,
+        Fulldesc:RecipeList[ClickedTasksIndex].desc,
+        Fullingredients:RecipeList[ClickedTasksIndex].ingredients,
+        Fullsrc:RecipeList[ClickedTasksIndex].src
+    })
+
+}
+
 const getDetails = () =>{
 if(title && receipe && ingredients){
     setNewList([...receipes,{
@@ -127,6 +121,7 @@ if(title && receipe && ingredients){
     setDesc("")
     setIngredients("")
     setSrc("")
+    alert("Enter the required details")
 }else{
     alert("Enter the required details")
 }
@@ -134,7 +129,7 @@ if(title && receipe && ingredients){
 
 return(
     <div>
-        <h1 className="text-secondary mb-3"><u>Recipe App</u></h1>
+        <h1 className="text-secondary mb-3 text-center"><u>Recipe App</u></h1>
         <InputField onInputChnage={onInputChnage} value={searchText} handleClick={SearchClick} />
             <Router>
                 <Link to="/">
@@ -149,7 +144,7 @@ return(
                 </Link>
                 <Switch>
                     <Route exact path="/">
-                        <Card deleteItem={deleteItem} RecipeList={RecipeList} />
+                        <Card deleteItem={deleteItem} RecipeList={RecipeList} fullrecipe={fullrecipe} />
                     </Route>
                     <Route path="/new">
                         <NewRecipe 
@@ -160,12 +155,14 @@ return(
                         onDescInputChnage={onDescInputChnage}
                         src={src} 
                         onSrcChnage={onSrcChnage} 
-                        ingredients={ingredients} 
                         onIngredientsChnage={onIngredientsChnage}
                         receipe={receipe} 
                         onRecipeChnage={onRecipeChnage}
                         getDetails={getDetails}
                         />
+                    </Route>
+                    <Route exact path="/fullrecipe">
+                        <FullRecipe ingredients={SingleReceipe.Fullingredients} title={SingleReceipe.Fulltitle} src={SingleReceipe.Fullsrc} recipe={SingleReceipe.Fullreceipe} desc={SingleReceipe.Fulldesc} />
                     </Route>
                 </Switch>
             </Router>
