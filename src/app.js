@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import FullRecipe from "./components/FullRecipe";
+import EditRecipe from "./components/editRecipe";
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -34,9 +36,7 @@ const App = ()=>{
 
 const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes);
 const classes = useStyles();
-const [open, setOpen] = React.useState(false);
 const [SingleReceipe, setRecipe] = useState({Fulltitle:"", Fullreceipe:"",Fullingredients:"", Fullsrc:"", Fulldesc:""})
-const [openCreate, setOpenCreate] = React.useState(false);
 const [title, setTitle] = useState("")
 const [ingredients, setIngredients] = useState("")
 const [receipe, setNewRecipe] = useState("")
@@ -44,11 +44,21 @@ const [src, setSrc] = useState("")
 const [desc, setDesc] = useState("")
 const [searchText, setSearchText] = useState("");
 const [RecipeList, setListText] = useState(receipes);
+const [editIngredients, setEditIngredient] = useState("")
+const [editRecipe, setEditRecipe] = useState("")
+const [EditIndex, setEditIndex] = useState(0)
 
 
 useEffect(() =>{
     localStorage.setItem("receipes", JSON.stringify(receipes))
 }, [receipes]);
+
+const editIngredientsChange = (e) => {
+    setEditIngredient(e.target.value)
+}
+const editRecipeChange = (e) => {
+    setEditRecipe(e.target.value)
+}
 
 const onTitleChange = (e) =>{
     setTitle(e.target.value)
@@ -97,7 +107,16 @@ const fullrecipe = (ClickedTasksIndex) => {
         Fullingredients:RecipeList[ClickedTasksIndex].ingredients,
         Fullsrc:RecipeList[ClickedTasksIndex].src
     })
+} 
 
+const getIndex = (ClickedTasksIndex) =>{
+    setEditIndex(ClickedTasksIndex)
+}
+const saveNewRecipe = () => {
+    receipes[EditIndex].ingredients = editIngredients
+    receipes[EditIndex].receipe = editRecipe
+    setEditIngredient("")
+    setEditRecipe("")
 }
 
 const getDetails = () =>{
@@ -121,7 +140,6 @@ if(title && receipe && ingredients){
     setDesc("")
     setIngredients("")
     setSrc("")
-    alert("Enter the required details")
 }else{
     alert("Enter the required details")
 }
@@ -144,7 +162,7 @@ return(
                 </Link>
                 <Switch>
                     <Route exact path="/">
-                        <Card deleteItem={deleteItem} RecipeList={RecipeList} fullrecipe={fullrecipe} />
+                        <Card getIndex={getIndex} deleteItem={deleteItem} RecipeList={RecipeList} fullrecipe={fullrecipe} />
                     </Route>
                     <Route path="/new">
                         <NewRecipe 
@@ -162,6 +180,9 @@ return(
                     </Route>
                     <Route exact path="/fullrecipe">
                         <FullRecipe ingredients={SingleReceipe.Fullingredients} title={SingleReceipe.Fulltitle} src={SingleReceipe.Fullsrc} recipe={SingleReceipe.Fullreceipe} desc={SingleReceipe.Fulldesc} />
+                    </Route>
+                    <Route exact path="/editrecipe">
+                        <EditRecipe saveNewRecipe={saveNewRecipe} editRecipeChange={editRecipeChange} editIngredientsChange={editIngredientsChange} newIngredients={editIngredients} newRecipe = {editRecipe}/>
                     </Route>
                 </Switch>
             </Router>

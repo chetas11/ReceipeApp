@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import EditIcon from '@material-ui/icons/Edit';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Card = (props) =>{
     const classes = useStyles();
-
-
-  
-
     return(
         <div className="row mt-4">
             {props.RecipeList.map((item, tabIndex)=>{
@@ -43,6 +40,9 @@ const Card = (props) =>{
                 }
                 const checkRecipe = ()=>{
                     props.fullrecipe(tabIndex)
+                }
+                const editNew = ()=>{
+                    props.getIndex(tabIndex)
                 }
                 return(
                 <>
@@ -65,6 +65,16 @@ const Card = (props) =>{
                         onClick={onDeleteClick}
                         key ={tabIndex}
                     >Delete</Button>
+                    <Link to="/editrecipe">
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<EditIcon  />}
+                        onClick={editNew}
+                        key ={tabIndex}
+                    >Edit</Button>
+                    </Link>
                 </div>
             </div>
             </div>
