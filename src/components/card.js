@@ -68,7 +68,7 @@ const Card = (props) =>{
                     <Link to="/editrecipe">
                     <Button
                         variant="outlined"
-                        color="secondary"
+                        color="default"
                         className={classes.button}
                         startIcon={<EditIcon  />}
                         onClick={editNew}

@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useReducer} from "react";
 import ReactDOM from "react-dom"
 import InputField from "./components/Searchbar"
 import Card from "./components/card"
 import AllReceipes from "./data/receipes"
-import { makeStyles } from '@material-ui/core/styles';
 import NewRecipe from "./components/NewRecipe";
 import Button from '@material-ui/core/Button';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
@@ -12,30 +11,9 @@ import FullRecipe from "./components/FullRecipe";
 import EditRecipe from "./components/editRecipe";
 
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    width:'100%'
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
 const App = ()=>{
 
-const [receipes, setNewList] = useState(localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes);
-const classes = useStyles();
+const [receipes, dispatch] = useReducer(reducer, localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes )
 const [SingleReceipe, setRecipe] = useState({Fulltitle:"", Fullreceipe:"",Fullingredients:"", Fullsrc:"", Fulldesc:""})
 const [title, setTitle] = useState("")
 const [ingredients, setIngredients] = useState("")
@@ -43,15 +21,36 @@ const [receipe, setNewRecipe] = useState("")
 const [src, setSrc] = useState("")
 const [desc, setDesc] = useState("")
 const [searchText, setSearchText] = useState("");
-const [RecipeList, setListText] = useState(receipes);
 const [editIngredients, setEditIngredient] = useState("")
 const [editRecipe, setEditRecipe] = useState("")
 const [EditIndex, setEditIndex] = useState(0)
 
+function reducer(receipes, action) {
+    switch (action.type){
+        case 'add-recipe':
+            return [...receipes, AddNewRecipe(action.payload.title)]
+        case 'delete-recipe':
+            return receipes.filter(recipe => recipe.id !== action.payload.id)
+        case 'search-recipe':
+            return receipes.filter((item)=> (item.title).trim().toLowerCase().includes(action.payload.text.toLowerCase()));
+        default:
+            return receipes
+    }
+}
 
-useEffect(() =>{
-    localStorage.setItem("receipes", JSON.stringify(receipes))
-}, [receipes]);
+function AddNewRecipe(title){
+    return{id: Date.now(), title:title, receipe:receipe, ingredients:ingredients, src:src, desc:desc}
+}
+const deleteItem = (id) =>{
+    dispatch({ type: 'delete-recipe', payload: {id : receipes[id].id}})
+}
+const onInputChnage = (e) =>{
+    if(!e.target.value){
+        location.reload();
+    }
+    setSearchText(e.target.value)
+    dispatch({ type: 'search-recipe', payload: {text : e.target.value}})
+}
 
 const editIngredientsChange = (e) => {
     setEditIngredient(e.target.value)
@@ -76,36 +75,13 @@ const onSrcChnage = (e) =>{
     setSrc(e.target.value)
 }
 
-const onInputChnage = (e) =>{
-    setSearchText(e.target.value)
-    const SearchedDish = receipes.filter((item)=> (item.title).trim().toLowerCase().includes(searchText.toLowerCase()));
-    if(searchText){
-      setListText(SearchedDish)
-    }else{
-      setListText(receipes)  
-    }
-}
-
-const SearchClick = (e) =>{
-    if(searchText===""){
-      setListText(receipes) 
-    }
-}
-
-const deleteItem = (ClickedTasksIndex) =>{
-    const NewRecipeList = [...receipes]
-    NewRecipeList.splice(ClickedTasksIndex, 1)
-    setListText(NewRecipeList)
-    setNewList(NewRecipeList)
-}
-
 const fullrecipe = (ClickedTasksIndex) => {
     setRecipe({
-        Fulltitle:RecipeList[ClickedTasksIndex].title,
-        Fullreceipe:RecipeList[ClickedTasksIndex].receipe,
-        Fulldesc:RecipeList[ClickedTasksIndex].desc,
-        Fullingredients:RecipeList[ClickedTasksIndex].ingredients,
-        Fullsrc:RecipeList[ClickedTasksIndex].src
+        Fulltitle:receipes[ClickedTasksIndex].title,
+        Fullreceipe:receipes[ClickedTasksIndex].receipe,
+        Fulldesc:receipes[ClickedTasksIndex].desc,
+        Fullingredients:receipes[ClickedTasksIndex].ingredients,
+        Fullsrc:receipes[ClickedTasksIndex].src
     })
 } 
 
@@ -121,25 +97,12 @@ const saveNewRecipe = () => {
 
 const getDetails = () =>{
 if(title && receipe && ingredients){
-    setNewList([...receipes,{
-        title:title,
-        receipe:receipe,
-        desc:desc,
-        ingredients:ingredients,
-        src:src
-    }])
-    setListText([...receipes,{
-        title:title,
-        receipe:receipe,
-        desc:desc,
-        ingredients:ingredients,
-        src:src
-    }])
+    dispatch({type: 'add-recipe', payload:{title:title}})
     setTitle("")
     setNewRecipe("")
     setDesc("")
     setIngredients("")
-    setSrc("")
+    setSrc("")  
 }else{
     alert("Enter the required details")
 }
@@ -148,7 +111,7 @@ if(title && receipe && ingredients){
 return(
     <div>
         <h1 className="text-secondary mb-3 text-center"><u>Recipe App</u></h1>
-        <InputField onInputChnage={onInputChnage} value={searchText} handleClick={SearchClick} />
+        <InputField onInputChnage={onInputChnage} value={searchText}/>
             <Router>
                 <Link to="/">
                 <Button className="mt-4" variant="contained" color="primary" href="#outlined-buttons">
@@ -162,7 +125,7 @@ return(
                 </Link>
                 <Switch>
                     <Route exact path="/">
-                        <Card getIndex={getIndex} deleteItem={deleteItem} RecipeList={RecipeList} fullrecipe={fullrecipe} />
+                        <Card getIndex={getIndex} deleteItem={deleteItem} RecipeList={receipes} dispatch={dispatch} fullrecipe={fullrecipe} />
                     </Route>
                     <Route path="/new">
                         <NewRecipe 
@@ -189,6 +152,5 @@ return(
     </div>
 )
 }
-
 
 ReactDOM.render(<App />, document.querySelector("#react-root"))

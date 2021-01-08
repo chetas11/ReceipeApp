@@ -1,4 +1,5 @@
 const AllReceipes = [{
+  id:0,
   title:"Aloo paratha",
   ingredients:"for dough: 2 cup wheat flour / atta, 2 tsp oil, ½ tsp salt, 1 cup water, to knead for aloo stuffing:2 potato / aloo, boiled & mashed, 1 chilli, finely chopped, ½ tsp coriander seeds, crushed, ¼ tsp kashmiri red chilli powder, ¼ tsp turmeric, ¼ tsp cumin powder / jeera powder, ½ tsp aamchur / dry mango powder, ¼ tsp ajwain / carom seeds, ½ tsp ginger paste, 2 tbsp coriander, finely chopped, ¼ tsp salt",
   receipe:"firstly, knead wheat dough by taking 2 cup wheat flour, 2 tsp oil, ½ tsp salt and 1 cup water.further, in a large mixing bowl take 2 boiled and mashed potato. add 1 chilli, ½ tsp crushed coriander seeds, ¼ tsp chilli powder, ¼ tsp turmeric, ¼ tsp cumin powder, ½ tsp aamchur, ¼ tsp ajwain, ½ tsp ginger paste, 2 tbsp coriander and ¼ tsp salt. mix well making sure all the spices are combined well. pinch a ball sized wheat dough and dust with some wheat flour. further, roll it in a circle of about 5 to 5.5 inches in diameter. stuff the stuffing and roll slightly thick. cook the paratha to golden brown adding oil/ghee. finally, serve hot aloo paratha with butter, sauce, raita or pickle.",
@@ -7,6 +8,7 @@ const AllReceipes = [{
 
 },
 {
+  id:1,
   title:"Tandoori Chicken Pizza",
   ingredients:"1 (12 inch) pre-baked pizza crust, 1 cup spicy barbeque sauce, 2 skinless boneless chicken breast halves, cooked and cubed, ½ cup chopped fresh cilantro, 1 cup sliced pepperoncini peppers, 1 cup chopped red onion, 2 cups shredded Colby-Monterey Jack cheese ",
   receipe:"Preheat oven to 350 degrees F (175 degrees C). Place pizza crust on a medium baking sheet. Spread the crust with barbeque sauce. Top with chicken, cilantro, pepperoncini peppers, onion, and cheese. Bake in the preheated oven for 15 minutes, or until cheese is melted and bubbly.",
@@ -15,6 +17,7 @@ const AllReceipes = [{
   
 },
 {
+  id:2,
   title:"Chicken Tikka",
   ingredients:"1 cup yogurt, 1 tablespoon lemon juice, 2 teaspoons fresh ground cumin, 1 teaspoon ground cinnamon, 2 teaspoons cayenne pepper, 2 teaspoons freshly ground black pepper, 1 tablespoon minced fresh ginger, 1 teaspoon salt, or to taste, 3 boneless skinless chicken breasts, cut into bite-size pieces, 1 tablespoon butter, 1 clove garlic, minced, 1 jalapeno pepper, finely chopped, 2 teaspoons ground cumin, 2 teaspoons paprika, 1 teaspoon salt, or to taste, 1 (8 ounce) can tomato sauce, 1 cup heavy cream, ¼ cup chopped fresh cilantro ",
   receipe:"In a large bowl, combine yogurt, lemon juice, 2 teaspoons cumin, cinnamon, cayenne, black pepper, ginger, and salt. Stir in chicken, cover, and refrigerate for 1 hour. Preheat a grill for high heat. Lightly oil the grill grate. Thread chicken onto skewers, and discard marinade. Grill until juices run clear about 5 minutes on each side. Melt butter in a large heavy skillet over medium heat. Saute garlic and jalapeno for 1 minute. Season with 2 teaspoons cumin, paprika, and 1 teaspoon salt. Stir in tomato sauce and cream. Simmer on low heat until sauce thickens, about 20 minutes. Add grilled chicken, and simmer for 10 minutes. Transfer to a serving platter, and garnish with fresh cilantro.",
@@ -23,6 +26,7 @@ const AllReceipes = [{
 
 },
 {
+  id:3,
   title:"Paaysam",
   ingredients:"1 small bowl rice, 1 lt.milk, 1cup Condensed milk, Sugar to taste, few strands of kesar and pinch of cardamom powder, Roasted cashew, almonds and pista.",
   src:"https://static.toiimg.com/thumb/60187888.cms?imgsize=325170&width=509&height=340",
@@ -31,6 +35,7 @@ const AllReceipes = [{
 
 },
 {
+  id:4,
   title:"Pasta",
   ingredients:"1 cup penne pasta, or any pasta ▢ water to boil ▢ ½ tsp salt other ingredients: ▢ 1 tsp oil ▢ 1 tsp butter ▢ 2 clove garlic, finely chopped ▢ 1 inch ginger, finely chopped ▢ ½ onion, finely chopped ▢ 1 cup tomato pulp ▢ ¼ tsp turmeric / haldi ▢ ½ tsp kashmiri red chilli powder ▢ 2 tbsp tomato sauce ▢ ½ tsp garam masala ▢ ½ tsp salt ▢ 2 tbsp corn ▢ ¼ capsicum, finely chopped ▢ ¼ carrot, finely chopped ▢ 2 tbsp peas / matar ▢ 7 florets broccoli ▢ 3 tbsp water ▢ ½ tsp mixed herbs, basil, marjoram, oregano, rosemary, sage, thyme",
   src:"https://img.taste.com.au/S30RrMAO/taste/2016/11/legume-pulse-products-y-new-to-the-supermarket-102645-2.jpeg",
@@ -39,6 +44,7 @@ const AllReceipes = [{
 
 },
 {
+  id:5,
   title:"Pani Puri",
   ingredients:"khatta meetha pani: ▢ 1 cup tamarind extract ▢ 3 tbsp jaggery / gud ▢ 1 tsp chaat masala ▢ 1 tsp cumin powder ▢ ¼ tsp pepper powder ▢ ¼ tsp kashmiri red chilli powder ▢ pinch hing / asafoetida ▢ ¾ tsp salt ▢ 3 cup cold water for aloo stuffing: ▢ 3 potato / aloo, boiled & mashed ▢ ½ onion, finely chopped ▢ 2 tbsp coriander, finely chopepd ▢ ½ tsp cumin powder ▢ ½ tsp chaat masala ▢ ¼ tsp pepper powder ▢ ½ tsp kashmiri red chilli powder ▢ ½ tsp salt",
   src:"https://food.fnr.sndimg.com/content/dam/images/food/fullset/2019/1/07/0/FNK_Pani-Puri_s4x3.jpg.rend.hgtvcom.826.620.suffix/1546894450909.jpeg",
