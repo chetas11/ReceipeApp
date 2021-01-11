@@ -28,8 +28,10 @@ const [EditIndex, setEditIndex] = useState(0)
 function reducer(receipes, action) {
     switch (action.type){
         case 'add-recipe':
-            return [...receipes, AddNewRecipe(action.payload.title)]
-        case 'delete-recipe':
+            localStorage.setItem("receipes", JSON.stringify([...receipes, AddNewRecipe(action.payload)]))
+            return [...receipes, AddNewRecipe(action.payload)]
+        case 'delete-recipe': 
+            localStorage.setItem("receipes", JSON.stringify(receipes.filter(recipe => recipe.id !== action.payload.id)))
             return receipes.filter(recipe => recipe.id !== action.payload.id)
         case 'search-recipe':
             return receipes.filter((item)=> (item.title).trim().toLowerCase().includes(action.payload.text.toLowerCase()));
@@ -38,11 +40,13 @@ function reducer(receipes, action) {
     }
 }
 
-function AddNewRecipe(title){
-    return{id: Date.now(), title:title, receipe:receipe, ingredients:ingredients, src:src, desc:desc}
+function AddNewRecipe(payload){
+    console.log(payload)
+    return{id: Date.now(), ...payload}
 }
 const deleteItem = (id) =>{
     dispatch({ type: 'delete-recipe', payload: {id : receipes[id].id}})
+    
 }
 const onInputChnage = (e) =>{
     if(!e.target.value){
@@ -97,7 +101,7 @@ const saveNewRecipe = () => {
 
 const getDetails = () =>{
 if(title && receipe && ingredients){
-    dispatch({type: 'add-recipe', payload:{title:title}})
+    dispatch({type: 'add-recipe', payload:{title, receipe, ingredients, src, desc}})
     setTitle("")
     setNewRecipe("")
     setDesc("")
