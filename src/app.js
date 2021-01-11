@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from "react";
+import React, {useState, useReducer} from "react";
 import ReactDOM from "react-dom"
 import InputField from "./components/Searchbar"
 import Card from "./components/card"
@@ -25,6 +25,8 @@ const [editIngredients, setEditIngredient] = useState("")
 const [editRecipe, setEditRecipe] = useState("")
 const [EditIndex, setEditIndex] = useState(0)
 
+
+
 function reducer(receipes, action) {
     switch (action.type){
         case 'add-recipe':
@@ -35,6 +37,10 @@ function reducer(receipes, action) {
             return receipes.filter(recipe => recipe.id !== action.payload.id)
         case 'search-recipe':
             return receipes.filter((item)=> (item.title).trim().toLowerCase().includes(action.payload.text.toLowerCase()));
+        case 'edit-recipe':
+            receipes[action.payload.Index].receipe = editRecipe
+            receipes[action.payload.Index].ingredients = editIngredients
+            localStorage.setItem("receipes", JSON.stringify(receipes))
         default:
             return receipes
     }
@@ -46,7 +52,6 @@ function AddNewRecipe(payload){
 }
 const deleteItem = (id) =>{
     dispatch({ type: 'delete-recipe', payload: {id : receipes[id].id}})
-    
 }
 const onInputChnage = (e) =>{
     if(!e.target.value){
@@ -93,8 +98,7 @@ const getIndex = (ClickedTasksIndex) =>{
     setEditIndex(ClickedTasksIndex)
 }
 const saveNewRecipe = () => {
-    receipes[EditIndex].ingredients = editIngredients
-    receipes[EditIndex].receipe = editRecipe
+    dispatch({ type: 'edit-recipe',payload: {Index: EditIndex} })
     setEditIngredient("")
     setEditRecipe("")
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
@@ -27,7 +27,7 @@ const NewRecipe = (props) =>{
               <input value={props.desc} onChange={props.onDescInputChnage}  name="desc" placeholder="Description" className="form-control"></input><br />
               <input value={props.src} onChange={props.onSrcChnage} name="src" placeholder="Image URL" className="form-control"></input><br />
               <input value={props.ingredients} onChange={props.onIngredientsChnage} name="ingredients" placeholder="Ingredients*" className="form-control"></input><br />
-              <textarea value={props.receipe} onChange={props.onRecipeChnage} name="receipe" rows="6" placeholder="Recipe*" className="form-control"></textarea><br />
+              <textarea value={props.receipe} onChange={props.onRecipeChnage} name="receipe" rows="6" placeholder="Recipe*" className="form-control"></textarea>
             </form>
             <Button
               variant="contained"

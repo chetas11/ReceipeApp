@@ -5,6 +5,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
+import Fab from '@material-ui/core/Fab';
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +34,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 
+
 const Card = (props) =>{
     const classes = useStyles();
+
+
     return(
         <div className="row mt-4">
             {props.RecipeList.map((item, tabIndex)=>{
@@ -57,23 +64,13 @@ const Card = (props) =>{
                         <SpeakerNotesIcon />&nbsp; Recipe
                     </Button>
                     </Link>
-                    <Button
-                        variant="outlined"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<DeleteIcon />}
-                        onClick={onDeleteClick}
-                        key ={tabIndex}
-                    >Delete</Button>
+                    <Fab key ={tabIndex} onClick={onDeleteClick} style={{marginLeft:180}} size="small" color="secondary" aria-label="add" className={classes.margin}>
+                    <DeleteIcon />
+                    </Fab>
                     <Link to="/editrecipe">
-                    <Button
-                        variant="outlined"
-                        color="default"
-                        className={classes.button}
-                        startIcon={<EditIcon  />}
-                        onClick={editNew}
-                        key ={tabIndex}
-                    >Edit</Button>
+                    <Fab style={{marginLeft:10}}  size="small" onClick={editNew} color="primary" aria-label="add" className={classes.margin}>
+                    <EditIcon  />
+                    </Fab>
                     </Link>
                 </div>
             </div>
