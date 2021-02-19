@@ -9,9 +9,20 @@ import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import FullRecipe from "./components/FullRecipe";
 import EditRecipe from "./components/editRecipe";
+import Axios from 'axios'
+
+
+const url = 'https://cors-anywhere.herokuapp.com/https://morning-hamlet-28701.herokuapp.com/';
 
 
 const App = ()=>{
+
+const getall = () =>{
+    Axios.get(url).then((respo)=>{
+        console.log(respo)
+    })
+} 
+
 
 const [receipes, dispatch] = useReducer(reducer, localStorage.getItem("receipes")?JSON.parse(localStorage.getItem("receipes")):AllReceipes )
 const [SingleReceipe, setRecipe] = useState({Fulltitle:"", Fullreceipe:"",Fullingredients:"", Fullsrc:"", Fulldesc:""})
@@ -23,7 +34,9 @@ const [desc, setDesc] = useState("")
 const [searchText, setSearchText] = useState("");
 const [editIngredients, setEditIngredient] = useState("")
 const [editRecipe, setEditRecipe] = useState("")
-const [EditIndex, setEditIndex] = useState(0)
+const [EditIndex, setEditIndex] = useState(0);
+
+
 
 
 
@@ -45,6 +58,8 @@ function reducer(receipes, action) {
             return receipes
     }
 }
+
+
 
 function AddNewRecipe(payload){
     console.log(payload)
@@ -131,6 +146,9 @@ return(
                 <AddOutlinedIcon />Add new recipe
                 </Button>
                 </Link>
+                <Button className="mt-4" onClick={getall} variant="contained" color="primary" href="#outlined-buttons">
+                <AddOutlinedIcon />Get Recipes
+                </Button>
                 <Switch>
                     <Route exact path="/">
                         <Card getIndex={getIndex} deleteItem={deleteItem} RecipeList={receipes} dispatch={dispatch} fullrecipe={fullrecipe} />

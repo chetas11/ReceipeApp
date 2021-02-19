@@ -41,7 +41,7 @@ const Card = (props) =>{
 
     return(
         <div className="row mt-4">
-            {props.RecipeList.map((item, tabIndex)=>{
+            {props.RecipeList.map((item, tabIndex)=>{   
                 const onDeleteClick = ()=>{
                     props.deleteItem(tabIndex)
                 }
