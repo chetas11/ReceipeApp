@@ -22,4 +22,4 @@
  
  #### Screenshot - 
 
-![Screenshot]()
+![Screenshot](https://github.com/chetas11/ReceipeApp/blob/master/RecipeApp.jpg)
